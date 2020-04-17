@@ -12,6 +12,7 @@ namespace EmployeeManager.Controllers
 	{
 		public IActionResult Index()
 		{
+			//Response.Redirect("/EmployeeListing");
 			return View();
 		}
 

@@ -1,0 +1,14 @@
+[
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    "inputFiles": [
+      "wwwroot/css/site.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/bootstrap-tagsinput.min.css",
+    "inputFiles": [
+      "wwwroot/css/bootstrap-tagsinput.css"
+    ]
+  }
+]
