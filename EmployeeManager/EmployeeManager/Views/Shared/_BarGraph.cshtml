@@ -4,4 +4,51 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.3/dist/Chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
-<script src="~/js/barChart.js" asp-append-version="true"></script>
+@*<script src="~/js/barChart.js" asp-append-version="true"></script>*@
+<script>
+	 $.ajax({
+		url: '@Url.Action(@ViewData["BarGraphAction"].ToString(), @ViewData["Controller"].ToString())',
+		type: 'GET',
+		dataType: 'json',
+		cache: false,
+		 success: function (result) {
+			var ctxB = document.getElementById("barChart").getContext('2d');
+			var myBarChart = new Chart(ctxB, {
+				type: 'bar',
+				data: {
+					labels: result.categories,//["03/29", "04/05", "04/12", "04/19"],
+					datasets: [{
+						label: '# of Hires',
+						data: result.categoryNumbers,
+						backgroundColor: [
+							'rgba(255, 99, 132, 0.2)',
+							'rgba(54, 162, 235, 0.2)',
+							'rgba(255, 206, 86, 0.2)',
+							'rgba(75, 192, 192, 0.2)',
+							'rgba(153, 102, 255, 0.2)',
+							'rgba(255, 159, 64, 0.2)'
+						],
+						borderColor: [
+							'rgba(255,99,132,1)',
+							'rgba(54, 162, 235, 1)',
+							'rgba(255, 206, 86, 1)',
+							'rgba(75, 192, 192, 1)',
+							'rgba(153, 102, 255, 1)',
+							'rgba(255, 159, 64, 1)'
+						],
+						borderWidth: 1
+					}]
+				},
+				options: {
+					scales: {
+						yAxes: [{
+							ticks: {
+								beginAtZero: true
+							}
+						 }]
+					 }
+				 }
+			 });
+		}
+	 });
+</script>

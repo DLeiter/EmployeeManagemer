@@ -4,16 +4,16 @@
 }
 
 <div class="float-right">
-	<b>Terminations</b>
+	<b>Total Terminations</b>
 	<div class="btn btn-danger">
-		24
+		@ViewBag.Terminations
 	</div>
 </div>
 <div>
 	<h2>Hires Per Week</h2>
-	<partial name="_BarGraph" />
+	<partial name="_BarGraph" view-data="ViewData"/>
 </div>
 <div class="mt-5">
 	<h2>Retnetion Rate</h2>
-	<partial name="_PieChart" />
+	<partial name="_PieChart" view-data="ViewData"/>
 </div>

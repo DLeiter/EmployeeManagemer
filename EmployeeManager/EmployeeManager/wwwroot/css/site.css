@@ -24,13 +24,7 @@
 }*/
 
 .body-content {
-	padding:75px 15px 20px 15px;
-}
-
-footer {
-	position: absolute;
-	bottom: 0;
-	left: 20px;
+	padding: 75px 15px 20px 15px;
 }
 
 /*Probably move these settings to a per widget setting*/
@@ -39,4 +33,12 @@ footer {
 	position: fixed;
 	width: 100%;
 	z-index: 1000;
+}
+
+.dataTables_wrapper {
+	width: 100% !important;
+}
+
+.table-hover.clickable tbody tr:hover {
+	cursor: pointer;
 }

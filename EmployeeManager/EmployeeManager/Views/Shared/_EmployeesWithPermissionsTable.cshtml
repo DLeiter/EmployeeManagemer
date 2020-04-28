@@ -1,0 +1,69 @@
+﻿@model IEnumerable<EmployeeManager.Models.Employees>
+
+<div class="row mt-3">
+	<h4>Employees With Permissions</h4>
+	<table id="employeesTable" class="table table-hover clickable">
+		<thead>
+			<tr>
+				<th>
+					@Html.DisplayNameFor(model => model.FirstName)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.LastName)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.ExtraPermissions)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Department)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Position)
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr onclick="setEmployeePermissionsDisplay('@item.Id', '@item.FirstName', '@item.LastName', '@item.ExtraPermissions?.Trim()');">
+					<td>
+						@Html.DisplayFor(modelItem => item.FirstName)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.LastName)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.ExtraPermissions)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Department.Id)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Position.Id)
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+<script>
+	function setEmployeePermissionsDisplay(id, firstName, lastName, permissions) {
+		$('#employeeDepartmentID').val(id);
+		$('#employeeDepartmentTable').val("Employees");
+		$('#departmentEmployeeText').text(firstName + ' ' + lastName);
+		$('.custom-control-input').prop('checked', false);
+
+		if (permissions.length > 0) {
+			if (permissions == '*') {
+				$('.custom-control-input').prop('checked', true);
+			}
+			else {
+				var permissionList = permissions.split(',');
+				$(permissionList).each(function (i, e) {
+					$('#permissionCheckbox' + e).prop('checked', true);
+				});
+			}
+		}
+	}
+</script>

@@ -10,5 +10,11 @@
     "inputFiles": [
       "wwwroot/css/bootstrap-tagsinput.css"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/css/PhotoUpload.min.css",
+    "inputFiles": [
+      "wwwroot/css/PhotoUpload.css"
+    ]
   }
 ]

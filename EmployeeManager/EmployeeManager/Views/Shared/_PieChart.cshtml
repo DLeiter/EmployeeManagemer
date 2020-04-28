@@ -5,3 +5,59 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.3/dist/Chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
 <script src="~/js/pieChart.js" asp-append-version="true"></script>
+
+<script>
+
+	 $.ajax({
+		url: '@Url.Action(@ViewData["PieChartAction"].ToString(), @ViewData["Controller"].ToString())',
+		type: 'GET',
+		dataType: 'json',
+		cache: false,
+		 success: function (result) {
+			 var ctxP = document.getElementById("labelChart").getContext('2d');
+			 var myPieChart = new Chart(ctxP, {
+				 plugins: [ChartDataLabels],
+				 type: 'pie',
+				 data: {
+					 labels: ["Terminated", "Quit", "Employeed"],
+					 datasets: [{
+						 data: [result.terminated, result.quit, result.employeed],
+						 backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
+						 hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
+					 }]
+				 },
+				 options: {
+					 responsive: true,
+					 legend: {
+						 position: 'right',
+						 labels: {
+							 padding: 20,
+							 boxWidth: 10
+						 }
+					 },
+					 plugins: {
+						 datalabels: {
+							 formatter: (value, ctx) => {
+								 let sum = 0;
+								 let dataArr = ctx.chart.data.datasets[0].data;
+								 dataArr.map(data => {
+									 sum += data;
+								 });
+								 let percentage = (value * 100 / sum).toFixed(2) + "%";
+								 return percentage;
+							 },
+							 color: 'white',
+							 labels: {
+								 title: {
+									 font: {
+										 size: '16'
+									 }
+								 }
+							 }
+						 }
+					 }
+				 }
+			 });
+		}
+	 });
+</script>

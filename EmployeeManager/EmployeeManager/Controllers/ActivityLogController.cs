@@ -2,92 +2,178 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using EmployeeManager.Models;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace EmployeeManager.Controllers
 {
-    public class ActivityLogController : Controller
-    {
-        // GET: ActivityLog
-        public ActionResult Index()
-        {
-            return View();
-        }
+	public class ActivityLogController : Controller
+	{
+		private readonly EmployeeManager_DBContext _context;
+		private readonly IMemoryCache _cache;
 
-        // GET: ActivityLog/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+		public ActivityLogController(EmployeeManager_DBContext context, IMemoryCache cache)
+		{
+			_context = context;
+			_cache = cache;
+		}
 
-        // GET: ActivityLog/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+		// GET: ActivityLog
+		public async Task<IActionResult> Index()
+		{
+			ResetNotifications();
+			return View(await _context.ActivityLog.ToListAsync());
+		}
 
-        // POST: ActivityLog/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
+		private void ResetNotifications()
+		{
+			_cache.Set("OldActivityTime", DateTime.UtcNow);
+		}
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+		[HttpGet]
+		public JsonResult GetNotifications()
+		{
+			if (!_cache.TryGetValue("OldActivityTime", out DateTime oldActivityTime))
+			{
+				//notifications = _context.
+				_cache.Set("OldActivityTime", DateTime.UtcNow);
+			}
+			else
+			{
+				_cache.Set("OldActivityTime", oldActivityTime);
+			}
 
-        // GET: ActivityLog/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+			int notificationCount = _context.ActivityLog.Where(a => a.AddDate > oldActivityTime).Count();
 
-        // POST: ActivityLog/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
+			return Json(new { message = notificationCount });
+		}
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+		// GET: ActivityLog/Details/5
+		public async Task<IActionResult> Details(string id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
 
-        // GET: ActivityLog/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+			var activityLog = await _context.ActivityLog
+				.FirstOrDefaultAsync(m => m.Id == id);
+			if (activityLog == null)
+			{
+				return NotFound();
+			}
 
-        // POST: ActivityLog/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
+			return View(activityLog);
+		}
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-    }
+		//// GET: ActivityLog/Create
+		//public IActionResult Create()
+		//{
+		//    return View();
+		//}
+
+		//// POST: ActivityLog/Create
+		//// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+		//// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+		//[HttpPost]
+		//[ValidateAntiForgeryToken]
+		//public async Task<IActionResult> Create([Bind("Id,Action,Details,AffectedTable,AddDate")] ActivityLog activityLog)
+		//{
+		//    if (ModelState.IsValid)
+		//    {
+		//        _context.Add(activityLog);
+		//        await _context.SaveChangesAsync();
+		//        return RedirectToAction(nameof(Index));
+		//    }
+		//    return View(activityLog);
+		//}
+
+		//// GET: ActivityLog/Edit/5
+		//public async Task<IActionResult> Edit(string id)
+		//{
+		//    if (id == null)
+		//    {
+		//        return NotFound();
+		//    }
+
+		//    var activityLog = await _context.ActivityLog.FindAsync(id);
+		//    if (activityLog == null)
+		//    {
+		//        return NotFound();
+		//    }
+		//    return View(activityLog);
+		//}
+
+		//// POST: ActivityLog/Edit/5
+		//// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+		//// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+		//[HttpPost]
+		//[ValidateAntiForgeryToken]
+		//public async Task<IActionResult> Edit(string id, [Bind("Id,Action,Details,AffectedTable,AddDate")] ActivityLog activityLog)
+		//{
+		//    if (id != activityLog.Id)
+		//    {
+		//        return NotFound();
+		//    }
+
+		//    if (ModelState.IsValid)
+		//    {
+		//        try
+		//        {
+		//            _context.Update(activityLog);
+		//            await _context.SaveChangesAsync();
+		//        }
+		//        catch (DbUpdateConcurrencyException)
+		//        {
+		//            if (!ActivityLogExists(activityLog.Id))
+		//            {
+		//                return NotFound();
+		//            }
+		//            else
+		//            {
+		//                throw;
+		//            }
+		//        }
+		//        return RedirectToAction(nameof(Index));
+		//    }
+		//    return View(activityLog);
+		//}
+
+		//// GET: ActivityLog/Delete/5
+		//public async Task<IActionResult> Delete(string id)
+		//{
+		//    if (id == null)
+		//    {
+		//        return NotFound();
+		//    }
+
+		//    var activityLog = await _context.ActivityLog
+		//        .FirstOrDefaultAsync(m => m.Id == id);
+		//    if (activityLog == null)
+		//    {
+		//        return NotFound();
+		//    }
+
+		//    return View(activityLog);
+		//}
+
+		//// POST: ActivityLog/Delete/5
+		//[HttpPost, ActionName("Delete")]
+		//[ValidateAntiForgeryToken]
+		//public async Task<IActionResult> DeleteConfirmed(string id)
+		//{
+		//    var activityLog = await _context.ActivityLog.FindAsync(id);
+		//    _context.ActivityLog.Remove(activityLog);
+		//    await _context.SaveChangesAsync();
+		//    return RedirectToAction(nameof(Index));
+		//}
+
+		private bool ActivityLogExists(string id)
+		{
+			return _context.ActivityLog.Any(e => e.Id == id);
+		}
+	}
 }

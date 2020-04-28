@@ -1,0 +1,119 @@
+﻿@model EmployeeManager.Models.Employees
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Employee Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MiddleName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MiddleName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ExtraPermissions)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ExtraPermissions)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Terminated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Terminated)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TerminationNotes)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TerminationNotes)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Shift)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Shift)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhotoId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhotoId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FavoriteColor)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FavoriteColor)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Department)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Department.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Manager)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Manager.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Position)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Position.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

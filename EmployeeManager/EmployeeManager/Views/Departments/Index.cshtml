@@ -1,0 +1,76 @@
+﻿@*@model EmployeeManager.Models.EmployeesAndDepartments*@
+@*@model EmployeeManager.Models.UpdatePermissionsViewModel*@
+@model IEnumerable<EmployeeManager.Models.Permissions>
+@{
+	ViewData["Title"] = "Team Settings";
+}
+<script>
+	$(document).ready(function () {
+		$('#departmentsTable').DataTable();
+		$('#employeesTable').DataTable();
+	});
+</script>
+
+<h2>Team Settings</h2>
+
+<div class="d-flex justify-content-center mt-3">
+	<div>
+		<div class="row card mt-3">
+			<div class="card-body">
+				<h5 id="departmentEmployeeHeader" class="card-title">Department/Employee</h5>
+				<h1 id="departmentEmployeeText">
+					None Set
+				</h1>
+			</div>
+		</div>
+		<div class="row card">
+			<div class="card-body">
+				<form style="margin-left:20px;">
+					<input id="employeeDepartmentID" type="hidden" />
+					<input id="employeeDepartmentTable" type="hidden" />
+					<div class="row">
+						@foreach (var p in Model)
+						{
+							<div class="custom-control custom-checkbox text-nowrap col-md-4">
+								<input type="checkbox" class="custom-control-input" id="permissionCheckbox@(p.Id.Trim())">
+								<label class="custom-control-label" for="permissionCheckbox@(p.Id.Trim())">@p.Permission</label>
+							</div>
+						}
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="col-md-12 mt-3 px-0 d-flex">
+			<a onclick="submitPermissions()" role="button" href="#" class="btn btn-primary ml-auto">Submit Changes</a>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="row mt-5">
+		<partial name="_DepartmentTable" model="@ViewBag.Departments" />
+	</div>
+</div>
+<div class="row mt-5">
+	<partial name="_EmployeesWithPermissionsTable" model="@ViewBag.Employees" />
+</div>
+
+<script>
+	function submitPermissions() {
+		var idList = [];
+		var checkedList = [];
+		$('.custom-control-input').each(function () {
+			idList.push($(this).prop("id").replace("permissionCheckbox", ""));
+			checkedList.push($(this).prop("checked"));
+		});
+
+		$.ajax({
+			url: '@Url.Action("UpdatePermissions", "Departments")',
+			type: "post",
+			dataType: "json",
+			data: { id: $('#employeeDepartmentID').val(), table: $('#employeeDepartmentTable').val(), permissionIdList: idList, checkedList: checkedList },
+			success: function (data) {
+				location.reload(true);
+		}
+		});
+	}
+</script>

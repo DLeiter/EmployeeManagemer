@@ -1,0 +1,85 @@
+﻿@model IEnumerable<EmployeeManager.Models.Departments>
+
+<div class="row" style="width:100%;">
+	<h4 class="col-md-9">Department Listing</h4>
+	<p class="col-md-3 text-right">
+		<a asp-action="Create">Create New</a>
+	</p>
+</div>
+<table id="departmentsTable" class="table table-hover clickable">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Department)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Permissions)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.AddDate)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.LastModified)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr onclick="setDepartmentPermissionsDisplay('@item.Id', '@item.Department', '@item.Permissions?.Trim()');">
+				<td>
+					@Html.DisplayFor(modelItem => item.Department)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Permissions)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.AddDate)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.LastModified)
+				</td>
+				<td>
+					<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+					<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+					<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+<script>
+	function setDepartmentPermissionsDisplay(id, department, permissions) {
+		$('#employeeDepartmentID').val(id);
+		$('#employeeDepartmentTable').val("Departments");
+		$('#departmentEmployeeText').text(department);
+		$('.custom-control-input').prop('checked', false);
+
+		if (permissions.length > 0) {
+			if (permissions == '*') {
+				$('.custom-control-input').prop('checked', true);
+			}
+			else {
+				var permissionList = permissions.split(',');
+				$(permissionList).each(function (i, e) {
+					$('#permissionCheckbox' + e).prop('checked', true);
+				});
+			}
+		}
+	}
+	//function setDepartmentPermissionsDisplay(department, permissions) {
+	//	console.log("TEST");
+	//	$('#departmentEmployeeText').text(department);
+	//	$('.custom-control-input').prop('checked', false);
+
+	//	if (permissions.length > 0) {
+	//		var permissionList = permissions.split(',');
+	//		$(permissionList).each(function (i, e) {
+	//			console.log(e);
+	//			$('#permissionCheckbox' + e).prop('checked', true);
+	//		});
+	//	}
+	//}
+</script>

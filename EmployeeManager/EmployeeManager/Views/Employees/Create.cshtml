@@ -1,0 +1,116 @@
+﻿@model EmployeeManager.Models.Employees
+
+@{
+	ViewData["Title"] = "Create";
+}
+<h2>New Employee</h2>
+<hr />
+<div class="container">
+	<form asp-action="Create">
+		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+		<div class="form-row">
+
+			<div class="form-group col-md-4">
+				<label asp-for="FirstName" class="control-label"></label>*
+				<input asp-for="FirstName" class="form-control" />
+				<span asp-validation-for="FirstName" class="text-danger"></span>
+			</div>
+			<div class="form-group col-md-4">
+				<label asp-for="MiddleName" class="control-label"></label>
+				<input asp-for="MiddleName" class="form-control" />
+				<span asp-validation-for="MiddleName" class="text-danger"></span>
+			</div>
+			<div class="form-group col-md-4">
+				<label asp-for="LastName" class="control-label"></label>*
+				<input asp-for="LastName" class="form-control" />
+				<span asp-validation-for="LastName" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="col-md-4">
+				<div class="form-group">
+					<label asp-for="Address" class="control-label"></label>
+					<input asp-for="Address" class="form-control" />
+					<span asp-validation-for="Address" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label asp-for="Email" class="control-label"></label>
+					<input asp-for="Email" class="form-control" />
+					<span asp-validation-for="Email" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label asp-for="PhoneNumber" class="control-label"></label>
+					<input asp-for="PhoneNumber" class="form-control" />
+					<span asp-validation-for="PhoneNumber" class="text-danger"></span>
+				</div>
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="col-md-4">
+				<div class="form-group">
+					<label asp-for="Department" class="control-label"></label>
+					<select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.DepartmentId"></select>
+				</div>
+			</div>
+			<div class="col-md-8">
+				<div class="form-group">
+					<label asp-for="Position" class="control-label"></label>
+					<select asp-for="PositionId" class="form-control" asp-items="ViewBag.PositionId"></select>
+				</div>
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="col-md-8">
+				<div class="form-row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label asp-for="ManagerId" class="control-label">Manager</label>
+							<select asp-for="ManagerId" class="form-control" asp-items="ViewBag.ManagerId">
+								<option value="">---Select---</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label asp-for="FavoriteColor" class="control-label"></label>
+							<input asp-for="FavoriteColor" class="form-control" />
+							<span asp-validation-for="FavoriteColor" class="text-danger"></span>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label asp-for="StartDate" class="control-label"></label>*
+							<input asp-for="StartDate" class="form-control" />
+							<span asp-validation-for="StartDate" class="text-danger"></span>
+						</div>
+						<div class="form-group">
+							<label asp-for="Shift" class="control-label"></label>*
+							<input asp-for="Shift" class="form-control" />
+							<span asp-validation-for="Shift" class="text-danger"></span>
+						</div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						<label asp-for="ExtraPermissions" class="control-label"></label>
+						<input asp-for="ExtraPermissions" class="form-control" />
+						<span asp-validation-for="ExtraPermissions" class="text-danger"></span>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 mt-4">
+				<partial name="_PhotoUpload" />
+			</div>
+		</div>
+		<div class="form-group d-flex">
+			<input type="submit" value="Create" class="btn btn-default ml-auto" />
+		</div>
+	</form>
+</div>
+
+<div class="form-group d-flex">
+	<a class="ml-auto mr-3" asp-action="Index">Back to List</a>
+</div>
+
