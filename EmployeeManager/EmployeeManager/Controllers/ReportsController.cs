@@ -91,11 +91,20 @@ namespace EmployeeManager.Controllers
 		[HttpGet]
 		public JsonResult GetBarGraphDetailsHireWeek()
 		{
-			var date = new DateTime(2020, 04, 19);
+			//replace with a dynamic listing based on week
+			var date1 = new DateTime(2020, 04, 19);
+			var date2 = new DateTime(2020, 04, 26);
 			return new JsonResult(new
 			{
-				Categories = new string[] { "03/29", "04/05", "04/12", "04/19" },
-				CategoryNumbers = new int[] { 0, 0, 0, _context.Employees.Where(e => e.StartDate > date).Count() }
+				Categories = new string[] { "03/29", "04/05", "04/12", "04/19", "04/26" },
+				CategoryNumbers = new int[]
+				{
+					0,
+					0,
+					0,
+					_context.Employees.Where(e => e.StartDate > date1).Count(),
+					_context.Employees.Where(e => e.StartDate > date2).Count()
+				}
 			});
 		}
 
